@@ -240,15 +240,13 @@ When the program **DPMapFromCubemap-macOS** was run using the fragment shader **
 ![](Documentation/ActualOutput2.png)
 
 
-It is obvious both outputs differ from the expected one posted by NVidia. The reverse mapping from a dual-paraboloid map to a cubemap could confirm which output is correct when OpenGL shaders are used.
+It is obvious the output differs from the expected one posted by NVidia. The reverse mapping from a dual-paraboloid map to a cubemap could be used to confirm which output is correct when OpenGL shaders are used.
 
-Before we could perform reverse mapping, we have to save the dual-paraboloid map. The user only need to press "s" or "S"; both textures will be saved to the ~/Documents/ folder without prompting. The files names are either *Front.png* and *Back.png* (or *Back.hdr*) depending on the value of the flag *_saveAsHDR*. The iOS version of **DPMapFromCubemap** doesn't have any option to save the 2 graphic files.
+Before we could perform reverse mapping, we have to save the dual-paraboloid map. The user only need to press "s" or "S"; both textures will be saved to the ~/Documents/ folder without prompting. The files names are *Front.png* (*Front.hdr*) and *Back.png* (*Back.hdr*) depending on the value of the flag *_saveAsHDR*. The iOS version of **DPMapFromCubemap** doesn't have any option to save the 2 graphic files. We will be save all outputs as .png files.
 
 The 2 images of the dual-paraboloid map must be in the *Resources* folder of  **CubemapFromDPMap-macOS** after compilation of this program's source code. For your convenience, a copy of the dual-paraboloid maps are provided in the *Outputs* folder. The files *Front0.png* and *Back0.png* are the outputs of the fragment shader **GenerateDPM0.glsl** while *Front2.png* and *Back2.png* are the outputs of the fragment shader **GenerateDPM2.glsl**.
 
-The output of **CubemapFragmentShader0.glsl** should take the output of **GenerateDPM0.glsl** and **CubemapFragmentShader2.glsl** the output of **GenerateDPM2.glsl** in order to get the following snapshots.
-
-To display a textured cube, the cubemap textures output by **CubemapFragmentShader0** and **CubemapFragmentShader2** shaders are passed to the **VertexShader.glsl** and **FragmentShaders.glsl**.
+To display a textured cube, the cubemap textures output by **CubemapFragmentShader2** shader are passed to the **VertexShader.glsl** and **FragmentShaders.glsl**. The output of **CubemapFragmentShader2.glsl** take the output of **GenerateDPM2.glsl** in order to get the following snapshot.
 
 
 ![](Documentation/Snapshot2.png)
@@ -277,9 +275,12 @@ You can also try out the fragment shaders **GenerateDPM3.glsl** and **CubemapFra
 
 ![](Documentation/Snapshot3.png)
 
+
+
 ## Notes
 
-Normally, it is necessary to flip a 2D textures vertically before saving it as a file on the disk.  Apple's OpenGL Profie shows the two dual-paraboloid textures are vertically flipped compared to what is displayed on the screen. Since we are importing the saved images into the second program (**CubemapFromDPMap-macOS**), it is not necessary for the first program (**DPMapFromCubemap-macOS**) to export the images as vertically flipped.
+Normally, it is necessary to flip a 2D texture vertically before saving it as a file on the disk. Apple's OpenGL Profie shows the two dual-paraboloid textures are vertically flipped compared to what is displayed on the screen. Since we are importing the saved images into the second program (**CubemapFromDPMap-macOS**), it is not necessary for the first program (**DPMapFromCubemap-macOS**) to export the images as vertically flipped.
+
 
 
 KIV: Apply layered rendering to generate the cubemap texture using a geometry shader.
