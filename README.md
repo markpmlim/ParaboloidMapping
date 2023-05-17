@@ -235,7 +235,7 @@ Therefore,
     t = -ry/(1-rz) 
 
 
-The output when the program **DPMapFromCubemap** was run using the fragment shader **GenerateDPM2.glsl**
+When the program **DPMapFromCubemap-macOS** was run using the fragment shader **GenerateDPM2.glsl**, the output looks like this:
 
 ![](Documentation/ActualOutput2.png)
 
