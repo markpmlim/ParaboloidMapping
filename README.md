@@ -252,11 +252,6 @@ The output of **CubemapFragmentShader0.glsl** should take the output of **Genera
 
 To display a textured cube, the cubemap textures output by **CubemapFragmentShader0** and **CubemapFragmentShader2** shaders are passed to the **Skybox** vertex and fragment shaders.
 
-
-![](Documentation/Snapshot0.png)
-
-
-
 ![](Documentation/Snapshot2.png)
 
 
