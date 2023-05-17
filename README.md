@@ -250,7 +250,7 @@ The 2 images of the dual-paraboloid map must be in the *Resources* folder of  **
 
 The output of **CubemapFragmentShader0.glsl** should take the output of **GenerateDPM0.glsl** and **CubemapFragmentShader2.glsl** the output of **GenerateDPM2.glsl** in order to get the following snapshots.
 
-To display a textured cube, the cubemap textures output by **CubemapFragmentShader0** and **CubemapFragmentShader2** shaders are passed to the **Skybox** vertex and fragment shaders.
+To display a textured cube, the cubemap textures output by **CubemapFragmentShader0** and **CubemapFragmentShader2** shaders are passed to the **VertexShader.glsl** and **FragmentShaders.glsl** pair of shaders.
 
 ![](Documentation/Snapshot2.png)
 
