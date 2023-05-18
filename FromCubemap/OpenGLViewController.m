@@ -200,7 +200,10 @@ static CVReturn OpenGLDisplayLinkCallback(CVDisplayLinkRef displayLink,
 /*
  Return a CGImage object; we assume the internal format of the texture
  is GL_RGBA8 (RGBA8888).
- The image saved to disk is not flipped.
+ The images saved to disk are flipped vertically compared to those
+ displayed by Apple's OpenGL Profiler.
+ In other words, you have to flip the images below writing them out to disk,
+ if you wish to see that they match those rendered by Apple's OpenGL Profiler.
  */
 - (CGImageRef)makeCGImage:(void *)rawData
                     width:(NSUInteger)width

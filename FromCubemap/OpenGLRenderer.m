@@ -179,7 +179,7 @@
 } // draw
 
 /*
- Multitexture render to an Offscreen framebuffer using a cubemap texture
+ Multitexture render to an Offscreen framebuffer using a cubemap texture.
  */
 - (void)paraboloidMapFromCubemap:(GLuint)textureID
                      textureSize:(CGSize)size
@@ -188,7 +188,7 @@
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSURL *vertexSourceURL = [mainBundle URLForResource:@"SimpleVertexShader"
                                           withExtension:@"glsl"];
-    NSURL *fragmentSourceURL = [mainBundle URLForResource:@"GenerateDPM2"
+    NSURL *fragmentSourceURL = [mainBundle URLForResource:@"GenerateDPM3"
                                             withExtension:@"glsl"];
     GLuint program = [OpenGLRenderer buildProgramWithVertexSourceURL:vertexSourceURL
                                                withFragmentSourceURL:fragmentSourceURL];

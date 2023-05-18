@@ -293,7 +293,7 @@
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSURL *vertexSourceURL = [mainBundle URLForResource:@"CubemapVertexShader"
                                           withExtension:@"glsl"];
-    NSURL *fragmentSourceURL = [mainBundle URLForResource:@"CubemapFragmentShader2"
+    NSURL *fragmentSourceURL = [mainBundle URLForResource:@"CubemapFragmentShader3"
                                             withExtension:@"glsl"];
     GLuint program = [OpenGLRenderer buildProgramWithVertexSourceURL:vertexSourceURL
                                                withFragmentSourceURL:fragmentSourceURL];

@@ -17,11 +17,11 @@ varying vec2 texCoords;
 
 uniform sampler2D image;
 
-// Note: The graphic images written out to disk are
-// the same as those displayed by Apple's OpenGL Profiler.
+// Note: The graphic images written out to disk are flipped vertically
+// compared to those displayed by Apple's OpenGL Profiler.
 void main(void)
 {
-    // However, we need to flip vertically so that the onscreen display
+    // The images need to be flip vertically so that the onscreen display
     // matches the graphic images written out to disk.
     vec2 uv = vec2(texCoords.x, 1.0-texCoords.y);
 

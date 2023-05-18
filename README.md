@@ -7,7 +7,7 @@ Environment maps are used to give objects reflective or refractive properties. O
 
 Three environment maps techniques had been developed over the past few decades. They are Sphere Mapping, Dual-Paraboloid Mapping and Cube Mapping.
 
-Information of these techniques are usually on how to perform environment mapping with Sphere maps, dual-paraboloid maps and Cubemaps. 
+Information of these techniques are usually on how to perform environment mapping with sphere maps, dual-paraboloid maps and cubemaps. 
 
 This project attempts to generate a pair of dual-paraboloid textures from the six 2D textures of a cubemap texture. It also applies reverse operations to convert the generated dual-paraboloid map back to a cubemap.
 
@@ -15,10 +15,10 @@ This project attempts to generate a pair of dual-paraboloid textures from the si
 
 This project consists of two programs: the first one is named **DPMapFromCubemap** and the second one **CubemapFromDPMap**. For both programs, the target texture(s) is/are rendered to an offscreen framebuffer object. The first program renders a dual-paraboloid map which consists of two 2D textures. The second program renders a cubemap (which are six 2D textures). Both programs used a separate vertex-fragment shader pair to display the rendered textures on the screen. (We will be compiling and executing the macOS version of both programs for testing purposes.)
 
-The vertex shaders of both programs are very simple. All the work of mapping from one projection to another is done by the fragment shaders, **GenerateDPM.glsl** and **CubeFragmentShader.glsl**.
+The vertex shaders of both programs are very simple. The work of mapping from one projection to another is done by the fragment shaders, **GenerateDPMx.glsl** and **CubeFragmentShaderx.glsl**.
 
 
-## Details
+## Brief Theory
 
 We will not be explaining the theory behind dual-paraboloid mapping. The reader can visit some of the weblinks listed below. Instead, we will be focussed on how to project a cubemap onto a dual-paraboloid map (which consists of two separate textures/images) and to reverse the mapping.
 
@@ -26,7 +26,16 @@ We will not be explaining the theory behind dual-paraboloid mapping. The reader 
 
 Refering to the slide (with the caption: Dual-parabolic Mapping Math) above (posted by NVidia), there are 2 sets of instructions showing how to map a 3D unit vector (rx, ry, rz) to a pair of texture coordinates (s, t) in the range [-1.0, 1.0].
 
-It is not clear how the information can be applied. But one thing we do know is, in order to access the pixels of a cubemap, a 3D vector must be formed. That means if we intend to convert a cubemap to a dual-paraboloid map, the reverse mapping: (s, t) to  (rx, ry, rz) should be applied. Conversely, to project a cubemap from a dual-paraboloid map, we should apply the first set of instructions. The following fragment shader code is lifted from the file **GenerateDPM0.glsl** which is loaded and executed by the application **DPMapFromCubemap-macOS**.
+It is not clear how the information can be applied. But one thing we do know is, in order to access the pixels of a cubemap, a 3D vector must be formed. That means if we intend to convert a cubemap to a dual-paraboloid map, the reverse mapping: (s, t) to  (rx, ry, rz) should be applied. Conversely, to project a cubemap from a dual-paraboloid map, we should apply the first set of instructions. 
+
+![](Documentation/Reflection.png)
+
+If you study the diagram above, rays of a distant object (orange) are deemed to be parallel when they reach the surface of the parabolic mirror. At the surface, the incident rays are reflected as if the reflected rays of light (blue) are emitted from the focal point of the parabolic mirror. The direction of the each reflected ray can be used to access a cubemap texture. So the trick of projecting a cubemap to a dual-paraboloid map is to calculate the (normalised) direction of the reflected rays. (See below for the Mathematical derivation)
+
+
+## Preliminary Investigations
+
+The following fragment shader code is lifted from the file **GenerateDPM0.glsl** which is loaded and executed by the application **DPMapFromCubemap-macOS**.
 
 
 ```glsl
@@ -71,7 +80,7 @@ should produce the back side texture of the paraboloid map. However, we found th
 ![](Documentation/ActualOutput0.png)
 
 
-By "front side", we assume the +Z face of the cubemap texture is mapped onto the central region of the left paraboloid texture.  The expected output is:
+By "front side", we assume the +Z face of the cubemap texture is mapped onto the central region of the left paraboloid texture.  In OpenGL, the positive z-direction is usually pointing perpendicularly out of the screen. The expected output is:
 
 
 ![](Documentation/ExpectedDPMap.png)
@@ -114,16 +123,16 @@ The following code is lifted from **CubeFragmentShader0.glsl**.
 
 ```
 
-Its function is to project the dual-paraboloid map into a cubemap that is identical to the original. However, the output is:
+Its function is to project the dual-paraboloid map onto a cubemap that is identical to the original. However, the output is:
 
 ![](Documentation/Snapshot0.png)
 
-To solve the problem, let's start go back to the basics and derive the two sets of formulae posted by NVidia.
+To solve the problem, let's start go back to the basics and derive the two sets of instructions posted by NVidia.
 
 
-## Mathematical Proof of formulae
+## Mathematical Proof
 
-Let's show how the equations used to convert a cubemap to 2 dual-paraboloid maps and vice-versa are derived. We will use the following figure as reference.
+Let's show how the equations used to convert a cubemap to a dual-paraboloid map and vice-versa are derived. We will use the following figure as reference.
 
 ![](Documentation/DualParaboloid.png)
 
@@ -174,7 +183,7 @@ Now divide all 3 equations by the magnitude which is (1.0 + s^2 + t^2)
     rx = 2s/(1 + s^2 + t^2)
     ry = 2t/(1 + s^2 + t^2)
     rz = [1 - (s^2 + t^2)]/(1 + s^2 + t^2)
-       = [1 - s^2 - t^2)]/(1 + s^2 + t^2)                                               (1)
+       = [1 - s^2 - t^2)]/(1 + s^2 + t^2)                               (1)
 
 We have replaced the left hand sides of the 3 equations by rx, ry, and rz.
 
@@ -188,10 +197,10 @@ and the results are:
 
     rx = -2s/(1 + s^2 + t^2)
     ry = -2t/(1 + s^2 + t^2)
-    rz = [(s^2 + t^2) - 1]/(1 + s^2 + t^2)                                              (2)
+    rz = [(s^2 + t^2) - 1]/(1 + s^2 + t^2)                              (2)
 
 
-To derive two sets of equations for the reverse mapping, we start with equation (1):
+To derive the two sets of equations for the reverse mapping, we start with equation (1):
 
     rz = [1 - (s^2 + t^2)]/(1 + s^2 + t^2)
 
@@ -207,11 +216,11 @@ Since
     rx = 2s/ma
     ry = 2t/ma
     
-then, for the front side (upper paraboloid),
+then, for the front side (upper paraboloid), we have
 
-    rx/(1+rz) = 2s/ma / 2/ma
+    rx/(1+rz) = (2s/ma) / (2/ma)
               = s
-    ry/(1+rz) = 2t/ma / 2/ma
+    ry/(1+rz) = (2t/ma) / (2/ma)
               = t
 
 To get the other set (back side), using equation (2), we can re-write this other set as:
@@ -227,9 +236,9 @@ To get the other set (back side), using equation (2), we can re-write this other
         
 Therefore,
 
-    rx/(1-rz) = -2s/ma / 2/ma
+    rx/(1-rz) = (-2s/ma) / (2/ma)
               = -s
-    ry/(1-rz) = -2t/ma / 2/ma
+    ry/(1-rz) = (-2t/ma) / (2/ma)
               = -t
     s = -rx/(1-rz) 
     t = -ry/(1-rz) 
@@ -242,11 +251,11 @@ When the program **DPMapFromCubemap-macOS** was run using the fragment shader **
 
 It is obvious the output differs from the expected one posted by NVidia. The reverse mapping from a dual-paraboloid map to a cubemap could be used to confirm which output is correct when OpenGL shaders are used.
 
-Before we could perform reverse mapping, we have to save the dual-paraboloid map. The user only need to press "s" or "S"; both textures will be saved to the ~/Documents/ folder without prompting. The files names are *Front.png* (*Front.hdr*) and *Back.png* (*Back.hdr*) depending on the value of the flag *_saveAsHDR*. The iOS version of **DPMapFromCubemap** doesn't have any option to save the 2 graphic files. We will be save all outputs as .png files.
+Before we could perform reverse mapping, we have to save the dual-paraboloid map. The user only need to press "s" or "S"; both textures will be saved to the ~/Documents/ folder without prompting. The files names are *Front.png* (*Front.hdr*) and *Back.png* (*Back.hdr*) depending on the value of the flag *_saveAsHDR*. The iOS version of **DPMapFromCubemap** doesn't have any option to save the 2 graphic files. We save all outputs as .png files.
 
-The 2 images of the dual-paraboloid map must be in the *Resources* folder of  **CubemapFromDPMap-macOS** after compilation of this program's source code. For your convenience, a copy of the dual-paraboloid maps are provided in the *Outputs* folder. The files *Front0.png* and *Back0.png* are the outputs of the fragment shader **GenerateDPM0.glsl** while *Front2.png* and *Back2.png* are the outputs of the fragment shader **GenerateDPM2.glsl**.
+The 2 images of the dual-paraboloid map must be in the *Resources* folder of  **CubemapFromDPMap-macOS** after compilation of this program's source code. For your convenience, a copy of the dual-paraboloid maps are provided in the *Outputs* folder. The files *Front0.png* and *Back0.png* are the outputs of the fragment shader **GenerateDPM0.glsl** while *Front2.png* and *Back2.png* are the outputs of the fragment shader **GenerateDPM2.glsl** etc.
 
-To display a textured cube, the cubemap textures output by **CubemapFragmentShader2** shader are passed to the **VertexShader.glsl** and **FragmentShaders.glsl**. The output of **CubemapFragmentShader2.glsl** take the output of **GenerateDPM2.glsl** in order to get the following snapshot.
+To display a textured cube, the cubemap textures output by **CubemapFragmentShader2** shader are passed to the **VertexShader.glsl** and **FragmentShaders.glsl**. The shader **CubemapFragmentShader2.glsl** take the outputs of **GenerateDPM2.glsl** as its inputs in order to get the following snapshot.
 
 
 ![](Documentation/Snapshot2.png)
@@ -255,7 +264,7 @@ To display a textured cube, the cubemap textures output by **CubemapFragmentShad
 
 ## Further Analysis
 
-Two fragment shaders viz. **GenerateDPM1.glsl** and **CubemapFragmentShader1.glsl** are included in this project. The original instructions proposed by NVidia are swapped in these shaders. The dual-paraboloid images are  identical to that output by **GenerateDPM0.glsl** except they are swapped. Just import these two images into the program **CubemapFromDPMap** with **CubemapFragmentShader1.glsl** as the fragment shader. You must modify one line of code in the Objective-C method:
+Two fragment shaders viz. **GenerateDPM1.glsl** and **CubemapFragmentShader1.glsl** are included in this project. The original instructions proposed by NVidia are swapped in these shaders. The dual-paraboloid images are  identical to those output by **GenerateDPM0.glsl** except they are swapped. Just import these two images into the program **CubemapFromDPMap** with **CubemapFragmentShader1.glsl** as the fragment shader. You must modify one line of code in the Objective-C method:
 
     cubemapFromParaboloidMap:faceSize
 
