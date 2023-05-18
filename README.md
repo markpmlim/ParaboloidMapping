@@ -253,9 +253,9 @@ It is obvious the output differs from the expected one posted by NVidia. The rev
 
 Before we could perform reverse mapping, we have to save the dual-paraboloid map. The user only need to press "s" or "S"; both textures will be saved to the ~/Documents/ folder without prompting. The files names are *Front.png* (*Front.hdr*) and *Back.png* (*Back.hdr*) depending on the value of the flag *_saveAsHDR*. The iOS version of **DPMapFromCubemap** doesn't have any option to save the 2 graphic files. We save all outputs as .png files.
 
-The 2 images of the dual-paraboloid map must be in the *Resources* folder of  **CubemapFromDPMap-macOS** after compilation of this program's source code. For your convenience, a copy of the dual-paraboloid maps are provided in the *Outputs* folder. The files *Front0.png* and *Back0.png* are the outputs of the fragment shader **GenerateDPM0.glsl** while *Front2.png* and *Back2.png* are the outputs of the fragment shader **GenerateDPM2.glsl** etc.
+The 2 images of the dual-paraboloid map must be in the *Resources* folder of  **CubemapFromDPMap-macOS** after compilation of this program's source code. For your convenience, a copy of the dual-paraboloid map is provided in the *Outputs* folder. The files *Front0.png* and *Back0.png* are the outputs of the fragment shader **GenerateDPM0.glsl** while *Front2.png* and *Back2.png* are the outputs of the fragment shader **GenerateDPM2.glsl** etc.
 
-To display a textured cube, the cubemap textures output by **CubemapFragmentShader2** shader are passed to the **VertexShader.glsl** and **FragmentShaders.glsl**. The shader **CubemapFragmentShader2.glsl** take the outputs of **GenerateDPM2.glsl** as its inputs in order to get the following snapshot.
+To display a textured cube, the cubemap texture output by **CubemapFragmentShader2** shader is passed to the **VertexShader.glsl** and **FragmentShaders.glsl**. The shader **CubemapFragmentShader2.glsl** take the outputs of **GenerateDPM2.glsl** as its inputs in order to get the following snapshot.
 
 
 ![](Documentation/Snapshot2.png)
@@ -309,6 +309,7 @@ To run the apps:
 * Target a macOS computer with macOS 10.13 or later/an iOS device or simulator with iOS 11 or later.
 
 Note: simd_quaternion functions are required. If not available, the code can be modified to use GLKMath functions.
+
 
 ## Web Resources
 
