@@ -295,7 +295,7 @@ Normally, it is necessary to flip a 2D texture vertically before saving it as a 
 KIV: Apply layered rendering to generate the cubemap texture using a geometry shader.
 
 
-Acknowledgements: Thanks to the authors of the various articles posted on the Internet.
+**Acknowledgements:** Thanks to the authors of the various articles posted on the Internet.
 
 
 ## Configure the Sample Code Project
