@@ -142,7 +142,7 @@ We start with 3 simple equations:
     y = t
     z = 1/2 - 1/2(s^2 + t^2)
     
-The last equation is the equation of a circular paraboloid: z = 1/2 - 1/2(x^2 + y^2). The points, s and t, are projected onto the surface of the upper paraboloid. To get the equations for the back side of the dual-paraboloid map, we extend this vertical line so that it cuts the lower paraboloid.
+The last equation is the equation of the upper (circular) paraboloid: z = 1/2 - 1/2(x^2 + y^2). The point, (s, t), is projected onto the surface of the upper paraboloid.
 
 
 Multiply all 3 equations by 2:
