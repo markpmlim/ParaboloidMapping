@@ -13,7 +13,7 @@ This project attempts to generate a pair of dual-paraboloid textures from the si
 
 ## Outline of programs
 
-This project consists of two programs: the first one is named **DPMapFromCubemap** and the second one **CubemapFromDPMap**. For both programs, the target texture(s) is/are rendered to an offscreen framebuffer object. The first program renders a dual-paraboloid map which consists of two 2D textures. The second program renders a cubemap (which are six 2D textures). Both programs used a separate vertex-fragment shader pair to display the rendered textures on the screen. (We will be compiling and executing the macOS version of both programs for testing purposes.)
+This project consists of two programs: the first one is named **DPMapFromCubemap** and the second one **CubemapFromDPMap**. For both programs, the target texture(s) is/are rendered to an offscreen framebuffer object. The first program renders a dual-paraboloid map which consists of two 2D textures. The second program renders a cubemap (which are six 2D textures). Both programs use a separate vertex-fragment shader pair to display the rendered textures on the screen. (We will be compiling and executing the macOS version of both programs for testing purposes.)
 
 The vertex shaders of both programs are very simple. The work of mapping from one projection to another is done by the fragment shaders, **GenerateDPMx.glsl** and **CubeFragmentShaderx.glsl**.
 
@@ -142,7 +142,7 @@ We start with 3 simple equations:
     y = t
     z = 1/2 - 1/2(s^2 + t^2)
     
-The last equation is the equation of a circular paraboloid: z = 1/2 - 1/2(x^2 + y^2). The points, s and t, are projected onto the surface of the upper paraboloid. We can extend this vertical line so that it cuts the lower paraboloid.
+The last equation is the equation of a circular paraboloid: z = 1/2 - 1/2(x^2 + y^2). The points, s and t, are projected onto the surface of the upper paraboloid. To get the equations for the back side of the dual-paraboloid map, we extend this vertical line so that it cuts the lower paraboloid.
 
 
 Multiply all 3 equations by 2:
@@ -185,7 +185,7 @@ Now divide all 3 equations by the magnitude which is (1.0 + s^2 + t^2)
     rz = [1 - (s^2 + t^2)]/(1 + s^2 + t^2)
        = [1 - s^2 - t^2)]/(1 + s^2 + t^2)                               (1)
 
-We have replaced the left hand sides of the 3 equations by rx, ry, and rz.
+We have replaced the left hand sides of the 3 equations by rx, ry, and rz which are the components of the normalised Reflection vector.
 
 Similarly, the other set of instructions (back side) can be derived using the same method. The starting equations are:
 
