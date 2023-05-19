@@ -185,7 +185,7 @@ Now divide all 3 equations by the magnitude which is (1.0 + s^2 + t^2)
     rz = [1 - (s^2 + t^2)]/(1 + s^2 + t^2)
        = [1 - s^2 - t^2)]/(1 + s^2 + t^2)                               (1)
 
-We have replaced the left hand sides of the 3 equations by rx, ry, and rz which are the components of the normalised Reflection vector.
+We have replaced the left hand sides of the 3 equations by rx, ry, and rz which are the components of the normalised Reflection vector from the focal point of the paraboloid to its surface.
 
 Similarly, the other set of instructions (back side) can be derived using the same method. The starting equations are:
 
